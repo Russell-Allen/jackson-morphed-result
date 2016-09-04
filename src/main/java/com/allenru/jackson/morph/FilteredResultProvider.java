@@ -80,8 +80,6 @@ public class FilteredResultProvider extends FilterProvider {
 			WeakHashMap<Object, MorphedResult<?>> allowedAttributesPrimaryResult = allowedAttributesByThreadThenPrimaryResult.get(currentThread);
 			if (allowedAttributesPrimaryResult == null) allowedAttributesByThreadThenPrimaryResult.put(currentThread, allowedAttributesPrimaryResult = new WeakHashMap<>());
 
-			//TODO is this required or even right?  
-			
 			Object primaryResult = filteredResult.getPrimaryResult();
 			if (primaryResult instanceof Collection<?>) {
 				Collection<?> primaryResults = (Collection<?>)primaryResult;

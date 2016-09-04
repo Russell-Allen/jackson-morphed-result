@@ -39,7 +39,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * registered with Jackson2's {@link ObjectMapper}.  If this is missed, then no filtering
  * will occur.  See {@link FilteredResultProvider} for example of registering the filter provider.
  * 
- * NOTE, Jackson2 applies filtering before unwrapping.  What this means is that the primary result 
+ * NOTE, Jackson2 applies filtering before unwrapping.  This means that the primary result 
  * object that is being wrapped should not have @JsonUnwrapped properties.  Classes that use that
  * annotation won't be filtered as one might expect.
  * 
