@@ -1,18 +1,29 @@
 # Jackson MorphedResult
-### Add, remove, and otherwise manipulate the properties of an object serialized with Jackson, at runtime without modifying the target object.
+*Add, remove, and otherwise manipulate the properties of an object serialized with Jackson, at runtime without modifying the target object.*
 
 ## Overview
 
 This small library lets you wrap an object so that you can 'virtually' add, remove, and replace the properties that will be serialized by <a href="http://wiki.fasterxml.com/JacksonHome">Jackson</a>.  The wrapped object is not actually modified, and no special annotation or code is required within the classes being wrapped.  Wrapping of an object as well as configuration of which properties are added, removed, etc. can all be done at runtime.
 
+## Download
+
+This library is available via <a href="http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.allenru%22%20a%3A%22jackson-morphed-result%22">the maven central repository</a> at the following coordinates:
+
+```
+    <groupId>com.allenru</groupId>
+    <artifactId>jackson-morphed-result</artifactId>
+```
+
 ## Usage
 
 Simple example:
 ```java
-		Credentials credentials = new Credentials();  //A simple POJO with two properties...
+		// We want to serialize this Credentials instance, but we don't want the password to show.
+		Credentials credentials = new Credentials();  // A simple POJO with two properties...
 		credentials.setUsername("Bob");
 		credentials.setPassword("password123");
 		
+		// Normal Jackson ObjectMapper, but don't forget to register the FilteredResultProvider.
 		ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
 		mapper.setFilters(new FilteredResultProvider());
 		
@@ -23,10 +34,12 @@ Simple example:
 //		  "password" : "password123"
 //		}
 		
+		// Simply wrap the object with MorphedResult...
 		MorphedResult<?> securedCredentials = new MorphedResult<>(credentials);
+		// and tell it which properties to exclude, include, add, etc.
 		securedCredentials.excludeAttribute("password");
 
-		//Now, wrapped and excluding the password...
+		// When serialized, only the configured properties are exposed.
 		System.out.println(mapper.writeValueAsString(securedCredentials));
 //		{
 //		  "username" : "Bob"
